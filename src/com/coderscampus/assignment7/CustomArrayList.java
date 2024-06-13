@@ -56,7 +56,7 @@ public class CustomArrayList<T> implements CustomList<T> {
 		if (currentListSize == objectArraySize) {
 			objectArraySize = objectArraySize * 2;
 			Object[] increasedItems = new Object[objectArraySize];
-			for (int i = 0; i < currentListSize; i++) {
+			for (int i = 0; i < items.length; i++) {
 				increasedItems[i] = items[i];
 				System.out.println("From increasedItems loop: " + increasedItems[i]);
 			}
@@ -76,25 +76,29 @@ public class CustomArrayList<T> implements CustomList<T> {
 			currentListSize++;
 			return true;
 		}
-		Object[] increasedItems = new Object[objectArraySize];
-		for (int i = 0; i < currentListSize; i++) {
-			increasedItems[i] = items[i];
-		}
-		for (int i = 0; i < index; i++) {
-			if (i < index) {
-				items[i] = increasedItems[i];
+		if (currentListSize != objectArraySize) {
+			Object[] increasedItems = new Object[objectArraySize];
+			for (int i = 0; i < items.length; i++) {
+				increasedItems[i] = items[i];
 			}
-			if (i == index) {
-				items[i] = item;
+			for (int i = 0; i < increasedItems.length; i++) {
+				if (i < index) {
+					items[i] = increasedItems[i];
+				}
+				if (i == index) {
+					items[i] = item;
+				}
+				if (i > index) {
+					items[i] = increasedItems[i - 1];
+				}
 			}
-			if (i > index) {
-				items[i] = increasedItems[i - 1];
-			}
-		}
-		
-		currentListSize++;
 
-		return true;
+			currentListSize++;
+			return true;
+		}
+
+		else
+			return false;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -103,47 +107,45 @@ public class CustomArrayList<T> implements CustomList<T> {
 		if (currentListSize <= index) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		Object[] copyArray = new Object[objectArraySize];
-		
+
 		for (int i = 0; i < currentListSize; i++) {
 			copyArray[i] = items[i];
 		}
-		
+
 		items = new Object[objectArraySize];
-		
-		if(index == 0) {
-			for(int i = 1; i < currentListSize; i++) {
-				items[i-1] = copyArray[i];
+
+		if (index == 0) {
+			for (int i = 1; i < currentListSize; i++) {
+				items[i - 1] = copyArray[i];
 			}
 			currentListSize--;
 			return (T) copyArray[index];
 		}
-		
-		if(index == currentListSize - 1) {
-			for(int i = 0; i < index; i++) {
+
+		if (index == currentListSize - 1) {
+			for (int i = 0; i < index; i++) {
 				items[i] = copyArray[i];
 			}
 			currentListSize--;
 			return (T) copyArray[index];
 		}
-		
-		if(index != currentListSize - 1) {
-			for(int i = 0; i < index; i++) {
+
+		if (index != currentListSize - 1) {
+			for (int i = 0; i < index; i++) {
 				items[i] = copyArray[i];
 			}
-			for(int i = index; i < currentListSize; i++) {
-				items[i] = copyArray[i+1];
+			for (int i = index; i < currentListSize; i++) {
+				items[i] = copyArray[i + 1];
 			}
 			currentListSize--;
 			return (T) copyArray[index];
 		}
-		
-		
-		
+
 		else
-			
-		return null;
+
+			return null;
 	}
 
 }
